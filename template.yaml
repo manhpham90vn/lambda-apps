@@ -32,6 +32,14 @@ Resources:
           Properties:
             Path: /hello
             Method: get
+  GetLamdaIPFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: get-lamda-ip/
+      Handler: app.lambda_handler
+      Runtime: python3.9
+      Architectures:
+      - x86_64
 
   ApplicationResourceGroup:
     Type: AWS::ResourceGroups::Group
@@ -59,3 +67,9 @@ Outputs:
   HelloWorldFunctionIamRole:
     Description: Implicit IAM Role created for Hello World function
     Value: !GetAtt HelloWorldFunctionRole.Arn
+  GetLamdaIPFunction:
+    Description: Get IP Lambda Function ARN
+    Value: !GetAtt GetLamdaIPFunction.Arn
+  GetLamdaIPFunctionIamRole:
+    Description: Implicit IAM Role created for Get IP function
+    Value: !GetAtt GetLamdaIPFunctionRole.Arn  
