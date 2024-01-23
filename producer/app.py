@@ -3,12 +3,14 @@ import boto3
 import os
 
 def lambda_handler(event, context):
-    print(f"event: ${event}")
-    print(f"context: ${context}")
+    print(f"Event: ${event}")
+    print(f"Context: ${context}")
 
-    new_event = {'key': 'value'}
-    response = send_event_to_sqs(new_event)
-    return response
+    for x in range(10):
+        new_event = {'event': x}
+        send_event_to_sqs(new_event)
+
+    print("Done sending events to SQS")     
 
 def send_event_to_sqs(event):
     sqs = boto3.client('sqs')
@@ -20,4 +22,3 @@ def send_event_to_sqs(event):
     )
 
     print(f"Sent new event to SQS: {response['MessageId']}")
-    return response

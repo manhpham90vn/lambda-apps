@@ -4,7 +4,7 @@ Description: Lambda -> SQS -> Lambda
 
 Globals:
   Function:
-    Timeout: 3
+    Timeout: 60
     MemorySize: 128
     Tracing: Active
     LoggingConfig:
@@ -14,6 +14,15 @@ Resources:
   # Define the SQS topic
   SQSQueue:
     Type: AWS::SQS::Queue
+    Properties:
+      RedrivePolicy:
+        deadLetterTargetArn:
+          Fn::GetAtt:
+            - "DeadLetterSQSQueue" 
+            - "Arn"
+        maxReceiveCount: 3
+  DeadLetterSQSQueue: 
+    Type: AWS::SQS::Queue      
 
   # Define Worker Lambda Function
   WorkerFunction:
@@ -29,6 +38,8 @@ Resources:
           Type: SQS
           Properties:
             Queue: !GetAtt SQSQueue.Arn
+            ScalingConfig:
+              MaximumConcurrency: 5
 
   # Define Producer Lambda Function
   ProducerFunction:
