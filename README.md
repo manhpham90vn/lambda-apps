@@ -45,15 +45,15 @@ sam validate
 sam build --use-container
 ```
 
-## Invoke Local
+## Invoke Local (need export QUEUE_URL)
 ```shell
 sam local invoke ProducerFunction --event events/event.json
 
 ```
 
-## Invoke remote
+## Invoke remote (not work)
 ```shell
-sam remote invoke --stack-name lambda-apps --event-file events/event.json ProducerFunction
+sam remote invoke --stack-name lambda-apps ProducerFunction --event-file events/event.json
 ```
 
 ## Deploy guided
@@ -66,7 +66,12 @@ sam deploy --guided
 sam deploy
 ```
 
-## Fix bug docker
+## Destroy
+```shell
+sam delete --stack-name lambda-apps
+```
+
+## Fix bug docker for docker desktop app
 ```shell
 export DOCKER_HOST=unix:///home/manh/.docker/desktop/docker.sock
 ```

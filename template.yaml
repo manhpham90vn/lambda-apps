@@ -21,14 +21,15 @@ Resources:
             - "DeadLetterSQSQueue" 
             - "Arn"
         maxReceiveCount: 3
+      VisibilityTimeout: 60  
   DeadLetterSQSQueue: 
     Type: AWS::SQS::Queue      
 
-  # Define Worker Lambda Function
-  WorkerFunction:
+  # Define Consumer Lambda Function
+  ConsumerFunction:
     Type: AWS::Serverless::Function
     Properties:
-      CodeUri: worker/
+      CodeUri: consumer/
       Handler: app.lambda_handler
       Runtime: python3.9
       Architectures:
